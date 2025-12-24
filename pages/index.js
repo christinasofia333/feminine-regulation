@@ -1,7 +1,61 @@
 import { useState } from 'react';
 
 export default function Home() {
-  const [messages, setMessages] = useState([
+const [isAuthenticated, setIsAuthenticated] = React.useState(false);
+  const [passwordInput, setPasswordInput] = React.useState('');
+  const [error, setError] = React.useState('');
+
+  React.useEffect(() => {
+    // Check if already authenticated in this session
+    if (sessionStorage.getItem('authenticated') === 'true') {
+      setIsAuthenticated(true);
+    }
+  }, []);
+
+  const handlePasswordSubmit = (e) => {
+    e.preventDefault();
+    if (passwordInput === 'regulatedbeta2026') {
+      setIsAuthenticated(true);
+      sessionStorage.setItem('authenticated', 'true');
+      setError('');
+    } else {
+      setError('Incorrect password. Please try again.');
+    }
+  };
+
+  if (!isAuthenticated) {
+    return (
+      <div className="min-h-screen bg-gradient-to-br from-rose-50 to-purple-50 flex items-center justify-center p-4">
+        <div className="bg-white rounded-2xl shadow-xl p-8 max-w-md w-full">
+          <h1 className="text-3xl font-bold text-gray-800 mb-2 text-center">
+            💗 Feminine Regulation
+          </h1>
+          <p className="text-gray-600 mb-6 text-center">
+            Beta Access Only
+          </p>
+          <form onSubmit={handlePasswordSubmit}>
+            <input
+              type="password"
+              value={passwordInput}
+              onChange={(e) => setPasswordInput(e.target.value)}
+              placeholder="Enter beta password"
+              className="w-full px-4 py-3 border border-gray-300 rounded-lg mb-4 focus:outline-none focus:ring-2 focus:ring-rose-400"
+            />
+            {error && <p className="text-red-500 text-sm mb-4">{error}</p>}
+            <button
+              type="submit"
+              className="w-full bg-gradient-to-r from-rose-400 to-pink-400 text-white font-semibold py-3 rounded-lg hover:from-rose-500 hover:to-pink-500 transition"
+            >
+              Access Tool
+            </button>
+          </form>
+          <p className="text-sm text-gray-500 mt-6 text-center">
+            Want beta access? DM @christinasofia on Instagram
+          </p>
+        </div>
+      </div>
+    );
+  }  const [messages, setMessages] = useState([
     {
       role: 'assistant',
       content: "Hey beautiful 💫 I'm here to support you through the hard moments—mind, body, heart, and soul. What's going on right now?"

@@ -1,11 +1,11 @@
-import { useState } from 'react';
+import { useState, useEffect } from 'react';
 
 export default function Home() {
-const [isAuthenticated, setIsAuthenticated] = React.useState(false);
-  const [passwordInput, setPasswordInput] = React.useState('');
-  const [error, setError] = React.useState('');
+const [isAuthenticated, setIsAuthenticated] = useState(false);
+const [passwordInput, setPasswordInput] = useState('');
+const [error, setError] = useState('');
 
-  React.useEffect(() => {
+ useEffect(() => {
     // Check if already authenticated in this session
     if (sessionStorage.getItem('authenticated') === 'true') {
       setIsAuthenticated(true);

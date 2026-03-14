@@ -71,8 +71,17 @@ export default function Home() {
     }
   };
 
+  const resetConversation = () => {
+    const initialMessage = {
+      role: 'assistant',
+      content: "Let's start fresh! 💗 I'm here to support you. What's on your heart right now?"
+    };
+    setMessages([initialMessage]);
+    // Don't clear localStorage - just reset the active conversation
+  };
+
   const clearChat = () => {
-    if (confirm('Clear your chat history?')) {
+    if (confirm('Clear your chat history? This cannot be undone.')) {
       setMessages([{
         role: 'assistant',
         content: "Hey love 💗 I'm here to support you. What's on your heart?"
@@ -92,7 +101,24 @@ export default function Home() {
               <p style={{fontSize: '0.875rem', color: '#6b7280'}}>Mind • Body • Heart • Soul</p>
             </div>
           </div>
-          <button onClick={clearChat} style={{fontSize: '0.875rem', color: '#6b7280', padding: '0.25rem 0.75rem', borderRadius: '0.25rem', border: 'none', background: 'transparent', cursor: 'pointer'}}>Clear Chat</button>
+          <div style={{display: 'flex', gap: '0.5rem'}}>
+            <button 
+              onClick={resetConversation}
+              style={{fontSize: '0.875rem', color: '#6b7280', padding: '0.25rem 0.75rem', borderRadius: '0.25rem', border: 'none', background: 'transparent', cursor: 'pointer', transition: 'color 0.2s'}}
+              onMouseOver={(e) => e.target.style.color = '#fb7185'}
+              onMouseOut={(e) => e.target.style.color = '#6b7280'}
+            >
+              Reset Chat
+            </button>
+            <button 
+              onClick={clearChat}
+              style={{fontSize: '0.875rem', color: '#6b7280', padding: '0.25rem 0.75rem', borderRadius: '0.25rem', border: 'none', background: 'transparent', cursor: 'pointer', transition: 'color 0.2s'}}
+              onMouseOver={(e) => e.target.style.color = '#fb7185'}
+              onMouseOut={(e) => e.target.style.color = '#6b7280'}
+            >
+              Clear All
+            </button>
+          </div>
         </div>
       </div>
 
@@ -129,13 +155,23 @@ export default function Home() {
 
       <div style={{background: 'white', borderTop: '1px solid #fda4af', padding: '1rem', boxShadow: '0 -1px 2px rgba(0,0,0,0.05)'}}>
         <div style={{maxWidth: '48rem', margin: '0 auto', display: 'flex', gap: '0.5rem'}}>
-          <input
-            type="text"
+          <textarea
             value={input}
             onChange={(e) => setInput(e.target.value)}
-            onKeyPress={(e) => e.key === 'Enter' && handleSend()}
+            onKeyPress={(e) => e.key === 'Enter' && !e.shiftKey && handleSend()}
             placeholder="Share what's on your heart..."
-            style={{flex: 1, padding: '0.75rem 1rem', borderRadius: '9999px', border: '1px solid #fda4af', outline: 'none', fontSize: '1rem'}}
+            rows="3"
+            style={{
+              flex: 1, 
+              padding: '0.75rem 1rem', 
+              borderRadius: '1rem', 
+              border: '1px solid #fda4af', 
+              outline: 'none', 
+              fontSize: '1rem',
+              resize: 'vertical',
+              minHeight: '3rem',
+              maxHeight: '8rem'
+            }}
           />
           <button
             onClick={handleSend}
@@ -144,12 +180,13 @@ export default function Home() {
               background: 'linear-gradient(to right, #fb7185, #f9a8d4)',
               color: 'white',
               padding: '0.75rem 1.5rem',
-              borderRadius: '9999px',
+              borderRadius: '1rem',
               border: 'none',
               cursor: isLoading || !input.trim() ? 'not-allowed' : 'pointer',
               opacity: isLoading || !input.trim() ? 0.5 : 1,
               fontSize: '1rem',
-              fontWeight: '500'
+              fontWeight: '500',
+              alignSelf: 'flex-end'
             }}
           >
             Send
@@ -158,7 +195,7 @@ export default function Home() {
       </div>
 
       <div style={{background: '#faf5ff', borderTop: '1px solid #e9d5ff', padding: '0.75rem', textAlign: 'center'}}>
-        <p style={{fontSize: '0.75rem', color: '#9333ea', margin: 0}}>✨ Educational wellness tool • Not therapy • Crisis? Call 988</p>
+        <p style={{fontSize: '0.75rem', color: '#9333ea', margin: 0}}>✨ For educational/wellness purposes only • Not therapy • Crisis? Call 988</p>
         <p style={{fontSize: '0.75rem', color: '#a855f7', margin: '0.25rem 0 0 0'}}>Created by Christina Sofia • <a href="https://christinasofia.com" style={{textDecoration: 'underline'}}>christinasofia.com</a></p>
       </div>
 

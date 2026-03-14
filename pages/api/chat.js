@@ -13,6 +13,7 @@ function limitConversationHistory(messages) {
     ...messages.slice(-9) // Last 9 messages
   ];
 }
+
 export default async function handler(req, res) {
   if (req.method !== 'POST') {
     return res.status(405).json({ error: 'Method not allowed' });
@@ -31,11 +32,11 @@ export default async function handler(req, res) {
         'anthropic-version': '2023-06-01',
       },
       body: JSON.stringify({
-  model: 'claude-sonnet-4-20250514',
-  max_tokens: 1000,
-  system: systemPrompt,
-  messages: limitConversationHistory(messages),
-}),
+        model: 'claude-sonnet-4-20250514',
+        max_tokens: 1000,
+        system: systemPrompt,
+        messages: limitConversationHistory(messages),
+      }),
     });
 
     const data = await response.json();
@@ -48,8 +49,19 @@ export default async function handler(req, res) {
     }
   } catch (error) {
     console.error('Error calling Anthropic API:', error);
+    
+    // Enhanced error handling for token limits and connection issues
+    let errorMessage = "I'm having trouble connecting right now, love. Take a deep breath with me. Place your hand on your heart. You're exactly where you need to be. 💗";
+    
+    // Check for specific error types
+    if (error.message && (error.message.includes('token') || error.message.includes('length') || error.message.includes('limit'))) {
+      errorMessage = "Our conversation got beautifully long! 💗 Try the 'Reset Chat' button above for a fresh start, or continue our conversation with shorter messages.";
+    } else if (error.message && error.message.includes('network')) {
+      errorMessage = "I'm having a connection hiccup. Check your internet and try again in a moment. I'm here when you're ready! 💗";
+    }
+    
     res.status(500).json({ 
-      message: "I'm having trouble connecting right now, love. Take a deep breath with me. Place your hand on your heart. You're exactly where you need to be."
+      message: errorMessage
     });
   }
 }

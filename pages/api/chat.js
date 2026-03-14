@@ -1,3 +1,18 @@
+function limitConversationHistory(messages) {
+  // Keep only the last 10 messages (5 back-and-forth exchanges)
+  // Always keep the first message (initial assistant greeting)
+  const maxMessages = 10;
+  
+  if (messages.length <= maxMessages) {
+    return messages;
+  }
+
+  // Keep first message + last 9 messages
+  return [
+    messages[0], // Initial greeting
+    ...messages.slice(-9) // Last 9 messages
+  ];
+}
 export default async function handler(req, res) {
   if (req.method !== 'POST') {
     return res.status(405).json({ error: 'Method not allowed' });

@@ -101,7 +101,15 @@ export default function Home() {
               <p style={{fontSize: '0.875rem', color: '#6b7280'}}>Mind • Body • Heart • Soul</p>
             </div>
           </div>
-          <div style={{display: 'flex', gap: '0.5rem'}}>
+          <div style={{display: 'flex', gap: '0.5rem', justifyContent: 'center'}}>
+            <button 
+              onClick={startNewConversation}
+              style={{fontSize: '0.875rem', color: '#6b7280', padding: '0.25rem 0.75rem', borderRadius: '0.25rem', border: 'none', background: 'transparent', cursor: 'pointer', transition: 'color 0.2s'}}
+              onMouseOver={(e) => e.target.style.color = '#fb7185'}
+              onMouseOut={(e) => e.target.style.color = '#6b7280'}
+            >
+              New Topic
+            </button>
             <button 
               onClick={resetConversation}
               style={{fontSize: '0.875rem', color: '#6b7280', padding: '0.25rem 0.75rem', borderRadius: '0.25rem', border: 'none', background: 'transparent', cursor: 'pointer', transition: 'color 0.2s'}}
@@ -124,6 +132,11 @@ export default function Home() {
 
       <div style={{flex: 1, overflowY: 'auto', padding: '1rem'}}>
         <div style={{maxWidth: '48rem', margin: '0 auto'}}>
+          <div style={{textAlign: 'center', padding: '0.5rem', background: '#fefce8', borderRadius: '0.5rem', margin: '1rem 0', border: '1px solid #fde047'}}>
+            <p style={{fontSize: '0.75rem', color: '#a16207', margin: 0}}>
+              💡 Tip: Use "New Topic" for different issues • "Reset Chat" to start over • Conversations auto-save
+            </p>
+          </div>
           {messages.map((msg, idx) => (
             <div key={idx} style={{display: 'flex', justifyContent: msg.role === 'user' ? 'flex-end' : 'flex-start', marginBottom: '1rem'}}>
               <div style={{

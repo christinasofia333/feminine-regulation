@@ -71,15 +71,6 @@ export default function Home() {
     }
   };
 
-  const resetConversation = () => {
-    const initialMessage = {
-      role: 'assistant',
-      content: "Let's start fresh! 💗 I'm here to support you. What's on your heart right now?"
-    };
-    setMessages([initialMessage]);
-    // Don't clear localStorage - just reset the active conversation
-  };
-
   const clearChat = () => {
     if (confirm('Clear your chat history? This cannot be undone.')) {
       setMessages([{
@@ -101,22 +92,14 @@ export default function Home() {
               <p style={{fontSize: '0.875rem', color: '#6b7280'}}>Mind • Body • Heart • Soul</p>
             </div>
           </div>
-          <div style={{display: 'flex', gap: '0.5rem', justifyContent: 'center'}}>
-            <button 
-              onClick={resetConversation}
-              style={{fontSize: '0.875rem', color: '#6b7280', padding: '0.25rem 0.75rem', borderRadius: '0.25rem', border: 'none', background: 'transparent', cursor: 'pointer', transition: 'color 0.2s'}}
-              onMouseOver={(e) => e.target.style.color = '#fb7185'}
-              onMouseOut={(e) => e.target.style.color = '#6b7280'}
-            >
-              Reset Chat
-            </button>
+          <div style={{display: 'flex', justifyContent: 'center'}}>
             <button 
               onClick={clearChat}
               style={{fontSize: '0.875rem', color: '#6b7280', padding: '0.25rem 0.75rem', borderRadius: '0.25rem', border: 'none', background: 'transparent', cursor: 'pointer', transition: 'color 0.2s'}}
               onMouseOver={(e) => e.target.style.color = '#fb7185'}
               onMouseOut={(e) => e.target.style.color = '#6b7280'}
             >
-              Clear All
+              Clear Chat
             </button>
           </div>
         </div>
@@ -126,7 +109,7 @@ export default function Home() {
         <div style={{maxWidth: '48rem', margin: '0 auto'}}>
           <div style={{textAlign: 'center', padding: '0.5rem', background: '#fefce8', borderRadius: '0.5rem', margin: '1rem 0', border: '1px solid #fde047'}}>
             <p style={{fontSize: '0.75rem', color: '#a16207', margin: 0}}>
-              💡 Tip: Use "Reset Chat" to start fresh • "Clear All" to delete history • Conversations auto-save
+              💡 Tip: Use "Clear Chat" to start fresh • Conversations auto-save
             </p>
           </div>
           {messages.map((msg, idx) => (

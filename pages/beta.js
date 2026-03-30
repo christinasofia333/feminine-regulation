@@ -8,7 +8,7 @@ export default function BetaAccess() {
 
   const handleSubmit = (e) => {
     e.preventDefault();
-    if (password === 'reset2026') {
+    if (password === 'founder2026') {
       sessionStorage.setItem('beta-authenticated', 'true');
       router.push('/');
     } else {
